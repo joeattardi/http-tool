@@ -5,10 +5,17 @@ const chalk = require('chalk');
 
 const pkg = require('../package.json');
 const outputFormatter = require('./output-formatter');
+const args = require('./cli-args');
 
-const url = process.argv[2];
+const url = args._[0]; 
+if (!url) {
+  console.error('You didn\'t specify a URL');
+  process.exit(1);
+}
 
 const startTime = Date.now();
+
+console.log(args);
 
 const options = {
   url,
@@ -18,11 +25,27 @@ const options = {
 };
 
 request(options, (error, response, body) => {
-  console.log(outputFormatter.formatStatusLine(response));
-  console.log('');
-  console.log(outputFormatter.formatHeaders(response.rawHeaders));
-  console.log('');
-  console.log(body);
+  if (error) {
+    if (error.syscall === 'getaddrinfo' && error.errno === 'ENOTFOUND') {
+      console.error(`Unable to resolve host ${error.hostname}`);
+    } else {
+      console.error('An unexpected error has occurred.');
+      console.error(error);
+    }
+
+    process.exit(1);
+  }
+
+  if (!args['body-only']) {
+    console.log(outputFormatter.formatStatusLine(response));
+    console.log('');
+    console.log(outputFormatter.formatHeaders(response.rawHeaders));
+    console.log('');
+  }
+
+  if (!args['headers-only']) {
+    console.log(body);
+  }
 
   const endTime = Date.now();
   console.log(`Completed in ${(endTime - startTime) / 1000} sec.`);
