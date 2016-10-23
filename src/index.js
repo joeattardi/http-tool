@@ -28,6 +28,8 @@ request(options, (error, response, body) => {
   if (error) {
     if (error.syscall === 'getaddrinfo' && error.errno === 'ENOTFOUND') {
       console.error(`Unable to resolve host ${error.hostname}`);
+    } else if (error.syscall === 'connect' && error.errno === 'ECONNREFUSED') {
+      console.error(`Unable to connect to ${url}: Connection refused`);
     } else {
       console.error('An unexpected error has occurred.');
       console.error(error);
