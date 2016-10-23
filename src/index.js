@@ -3,13 +3,21 @@
 const request = require('request');
 const chalk = require('chalk');
 
+const pkg = require('../package.json');
 const outputFormatter = require('./output-formatter');
 
 const url = process.argv[2];
 
 const startTime = Date.now();
 
-request(url, (error, response, body) => {
+const options = {
+  url,
+  headers: {
+    'User-Agent': `http-tool/${pkg.version}`
+  }
+};
+
+request(options, (error, response, body) => {
   console.log(outputFormatter.formatStatusLine(response));
   console.log('');
   console.log(outputFormatter.formatHeaders(response.rawHeaders));
