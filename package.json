@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "A command-line tool for interacting with web sites and APIs",
   "main": "src/index.js",
+  "bin": {
+    "http-tool": "src/index.js"
+  },
   "scripts": {
     "test": "mocha test"
   },
