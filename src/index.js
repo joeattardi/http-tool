@@ -9,10 +9,12 @@ const pkg = require('../package.json');
 const outputFormatter = require('./output-formatter');
 const args = require('./cli-args');
 
-const url = args._[0]; 
+let url = args._[0]; 
 if (!url) {
   console.error('You didn\'t specify a URL');
   process.exit(1);
+} else if (!url.match(/https?:\/\//)) {
+  url = `http://${url}`;
 }
 
 const startTime = Date.now();
