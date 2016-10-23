@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "chalk": "^1.1.3",
+    "jsome": "^2.3.25",
     "lodash": "^4.16.4",
     "request": "^2.75.0",
     "yargs": "^6.3.0"

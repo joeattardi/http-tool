@@ -4,6 +4,7 @@
 
 const request = require('request');
 const chalk = require('chalk');
+const jsome = require('jsome');
 
 const pkg = require('../package.json');
 const outputFormatter = require('./output-formatter');
@@ -13,7 +14,7 @@ let url = args._[0];
 if (!url) {
   console.error('You didn\'t specify a URL');
   process.exit(1);
-} else if (!url.match(/https?:\/\//)) {
+} else if (!url.match(/^https?:\/\//)) {
   url = `http://${url}`;
 }
 
@@ -50,7 +51,12 @@ request(options, (error, response, body) => {
   }
 
   if (!args['headers-only']) {
-    console.log(body);
+    const contentType = response.headers['content-type'];
+    if (contentType.indexOf('application/json') === 0) {
+      jsome.parse(body);
+    } else {
+      console.log(body);
+    }
   }
 
   const endTime = Date.now();
