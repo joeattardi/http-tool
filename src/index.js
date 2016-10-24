@@ -49,6 +49,10 @@ const options = {
   }
 };
 
+if (args.data) {
+  options.body = args.data;
+}
+
 headers.processHeaders(args.header, options);
 
 debug('Using options:', options);

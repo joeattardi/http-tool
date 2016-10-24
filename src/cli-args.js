@@ -4,6 +4,11 @@ const pkg = require('../package.json');
 const yargs = require('yargs');
 
 module.exports = yargs
+  .option('data', {
+    alias: 'd',
+    describe: 'Set the request body data',
+    type: 'string'
+  })
   .option('method', {
     alias: 'm',
     describe: 'Set the HTTP method to use',
