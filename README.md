@@ -1,7 +1,8 @@
 # http-tool
 A command-line tool for interacting with web sites and APIs
-
 http-tool is a command-line utility like curl or HTTPie, used for making HTTP requests.
+
+![Screenshot](https://raw.githubusercontent.com/joeattardi/http-tool/master/screenshot.png)
 
 # Installation
 Make sure you have Node 4 or newer, and run `npm install -g http-tool`.
