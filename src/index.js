@@ -29,7 +29,7 @@ function handleError(error) {
   if (error.syscall === 'getaddrinfo' && error.errno === 'ENOTFOUND') {
     console.error(`Unable to resolve host ${error.hostname}`);
   } else if (error.syscall === 'connect' && error.errno === 'ECONNREFUSED') {
-    console.error(`Unable to connect to ${url}: Connection refused`);
+    console.error(`Unable to connect to ${options.url}: Connection refused`);
   } else {
     console.error('An unexpected error has occurred.');
     console.error(error);
@@ -42,6 +42,7 @@ function handleError(error) {
 const startTime = Date.now();
 
 const options = {
+  method: args.method,
   url: validateUrl(),
   headers: {
     'User-Agent': `http-tool/${pkg.version}`

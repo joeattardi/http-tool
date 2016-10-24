@@ -4,6 +4,12 @@ const pkg = require('../package.json');
 const yargs = require('yargs');
 
 module.exports = yargs
+  .option('method', {
+    alias: 'm',
+    describe: 'Set the HTTP method to use',
+    type: 'string',
+    default: 'GET'
+  })
   .option('header', {
     alias: 'H',
     describe: 'Pass a custom header to the request',
