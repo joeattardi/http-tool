@@ -2,45 +2,59 @@
 
 'use strict';
 
+const _ = require('lodash');
 const request = require('request');
 const chalk = require('chalk');
 const jsome = require('jsome');
+const debug = require('debug')('index');
 
 const pkg = require('../package.json');
 const outputFormatter = require('./output-formatter');
 const args = require('./cli-args');
+const headers = require('./headers');
 
-let url = args._[0]; 
-if (!url) {
-  console.error('You didn\'t specify a URL');
-  process.exit(1);
-} else if (!url.match(/^https?:\/\//)) {
-  url = `http://${url}`;
+function validateUrl() {
+  let url = args._[0]; 
+  if (!url) {
+    console.error('You didn\'t specify a URL');
+    process.exit(1);
+  } else if (!url.match(/^https?:\/\//)) {
+    url = `http://${url}`;
+  }
+
+  return url;
 }
+
+function handleError(error) {
+  if (error.syscall === 'getaddrinfo' && error.errno === 'ENOTFOUND') {
+    console.error(`Unable to resolve host ${error.hostname}`);
+  } else if (error.syscall === 'connect' && error.errno === 'ECONNREFUSED') {
+    console.error(`Unable to connect to ${url}: Connection refused`);
+  } else {
+    console.error('An unexpected error has occurred.');
+    console.error(error);
+  }
+
+  process.exit(1);
+}
+
 
 const startTime = Date.now();
 
-console.log(args);
-
 const options = {
-  url,
+  url: validateUrl(),
   headers: {
     'User-Agent': `http-tool/${pkg.version}`
   }
 };
 
+headers.processHeaders(args.header, options);
+
+debug('Using options:', options);
+
 request(options, (error, response, body) => {
   if (error) {
-    if (error.syscall === 'getaddrinfo' && error.errno === 'ENOTFOUND') {
-      console.error(`Unable to resolve host ${error.hostname}`);
-    } else if (error.syscall === 'connect' && error.errno === 'ECONNREFUSED') {
-      console.error(`Unable to connect to ${url}: Connection refused`);
-    } else {
-      console.error('An unexpected error has occurred.');
-      console.error(error);
-    }
-
-    process.exit(1);
+    handleError(error);
   }
 
   if (!args['body-only']) {

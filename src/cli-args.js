@@ -4,6 +4,11 @@ const pkg = require('../package.json');
 const yargs = require('yargs');
 
 module.exports = yargs
+  .option('header', {
+    alias: 'H',
+    describe: 'Pass a custom header to the request',
+    type: 'string'
+  })
   .option('headers-only', {
     alias: 'r',
     describe: 'Only include the response headers in the output',
