@@ -47,7 +47,8 @@ const options = {
   url: validateUrl(),
   headers: {
     'User-Agent': `http-tool/${pkg.version}`
-  }
+  },
+  followRedirect: false
 };
 
 if (args.data) {
