@@ -12,6 +12,7 @@ const pkg = require('../package.json');
 const outputFormatter = require('./output-formatter');
 const args = require('./cli-args');
 const headers = require('./headers');
+const cookies = require('./cookies');
 
 function validateUrl() {
   let url = args._[0]; 
@@ -54,6 +55,7 @@ if (args.data) {
 }
 
 headers.processHeaders(args.header, options);
+cookies.processCookies(args.cookie, options);
 
 debug('Using options:', options);
 

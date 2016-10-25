@@ -4,6 +4,11 @@ const pkg = require('../package.json');
 const yargs = require('yargs');
 
 module.exports = yargs
+  .option('cookie', {
+    alias: 'c',
+    describe: 'Set a cookie in the request',
+    type: 'string'
+  })
   .option('data', {
     alias: 'd',
     describe: 'Set the request body data',

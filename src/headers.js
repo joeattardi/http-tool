@@ -1,3 +1,5 @@
+'use strict';
+
 const _ = require('lodash');
 
 exports.processHeaders = function processHeaders(headerParams, options) {
