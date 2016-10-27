@@ -2,6 +2,7 @@
 
 'use strict';
 
+const fs = require('fs');
 const _ = require('lodash');
 const request = require('request');
 const chalk = require('chalk');
@@ -65,20 +66,29 @@ request(options, (error, response, body) => {
     handleError(error);
   }
 
+  let output = '';
+
   if (!args['body-only']) {
-    console.log(outputFormatter.formatStatusLine(response));
-    console.log('');
-    console.log(outputFormatter.formatHeaders(response.rawHeaders));
-    console.log('');
+    output += outputFormatter.formatStatusLine(response);
+    output += '\n\n';
+    output += outputFormatter.formatHeaders(response.rawHeaders);
+    output += '\n\n';
   }
 
+
   if (!args['headers-only']) {
-    const contentType = response.headers['content-type'];
-    if (contentType.indexOf('application/json') === 0) {
-      jsome.parse(body);
-    } else {
-      console.log(body);
+    output += body;
+  }
+
+  if (args.output) {
+    try {
+      fs.writeFileSync(args.output, chalk.stripColor(output));
+    } catch (error) {
+      console.error(`Failed to save output to ${args.output}: ${error.message}`);
+      process.exit(1);
     }
+  } else {
+    console.log(output);
   }
 
   const endTime = Date.now();

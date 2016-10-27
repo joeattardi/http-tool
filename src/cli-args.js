@@ -4,6 +4,11 @@ const pkg = require('../package.json');
 const yargs = require('yargs');
 
 module.exports = yargs
+  .option('output', {
+    alias: 'o',
+    describe: 'Write output to a file instead of stdout',
+    type: 'string'
+  })
   .option('cookie', {
     alias: 'c',
     describe: 'Set a cookie in the request',
