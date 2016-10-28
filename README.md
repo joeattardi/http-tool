@@ -28,3 +28,4 @@ To include cookies with a request, use the `--cookie` or `-c` option. The cookie
 ### Output options
  * `--headers-only, -r`: Only include the response headers in the output
  * `--body-only, -b`: Only include the response body in the output
+ * `--output <file>, -o <file>`: Save the output to a file
