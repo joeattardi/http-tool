@@ -6,7 +6,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const request = require('request');
 const chalk = require('chalk');
-const jsome = require('jsome');
+const colorizeJson = require('json-colorizer');
 const debug = require('debug')('index');
 
 const pkg = require('../package.json');
@@ -75,9 +75,13 @@ request(options, (error, response, body) => {
     output += '\n\n';
   }
 
-
   if (!args['headers-only']) {
-    output += body;
+    const contentType = response.headers['content-type'];
+    if (contentType.includes('application/json')) {
+      output += colorizeJson(body);
+    } else {
+      output += body;
+    }
   }
 
   if (args.output) {

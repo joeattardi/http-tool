@@ -4,6 +4,10 @@ const pkg = require('../package.json');
 const yargs = require('yargs');
 
 module.exports = yargs
+  .option('no-color', {
+    describe: 'Do not use color in the output',
+    type: 'boolean'
+  })
   .option('output', {
     alias: 'o',
     describe: 'Write output to a file instead of stdout',
