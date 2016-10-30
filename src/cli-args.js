@@ -4,6 +4,11 @@ const pkg = require('../package.json');
 const yargs = require('yargs');
 
 module.exports = yargs
+  .option('auth', {
+    alias: 'a',
+    describe: 'Specify <username:password> or just <username> for HTTP authentication',
+    type: 'string'
+  })
   .option('no-color', {
     describe: 'Do not use color in the output',
     type: 'boolean'

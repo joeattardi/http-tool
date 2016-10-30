@@ -8,6 +8,7 @@ const request = require('request');
 const chalk = require('chalk');
 const colorizeJson = require('json-colorizer');
 const debug = require('debug')('index');
+const readlineSync = require('readline-sync');
 
 const pkg = require('../package.json');
 const outputFormatter = require('./output-formatter');
@@ -61,6 +62,24 @@ cookies.processCookies(args.cookie, options);
 
 debug('Using options:', options);
 
+if (args.auth) {
+  let password;
+  const arr = args.auth.split(':');
+  if (arr.length === 1) {
+    password = readlineSync.question('Password: ', {
+      hideEchoBack: true
+    });
+  } else {
+    password = arr[1];
+  }
+
+  const user = arr[0];
+  options.auth = {
+    user,
+    pass: password
+  };
+}
+
 request(options, (error, response, body) => {
   if (error) {
     handleError(error);
@@ -77,7 +96,7 @@ request(options, (error, response, body) => {
 
   if (!args['headers-only']) {
     const contentType = response.headers['content-type'];
-    if (contentType.includes('application/json')) {
+    if (contentType && contentType.includes('application/json')) {
       output += colorizeJson(body);
     } else {
       output += body;
