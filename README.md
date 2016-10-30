@@ -14,6 +14,9 @@ Usage: `http-tool [options] <URL>`
 ### HTTP method
 To specify which HTTP method to use (`GET`, `POST`, `DELETE`, etc.), use the `--method` or `-m` option. The default is `GET`.
 
+### Authentication
+To use HTTP basic authentication, use the `--auth` or `-a` option. You can specify both the username and password as `username:password`, or you can just specify the username, in which case you'll be prompted for a password.
+
 ### Custom request headers
 To include custom headers in the HTTP request, use the `--header` or `-H` option. The header should be specified as a `key: value` pair as a string, e.g. `-H "Content-Type: application/json`. You can use the `--header` or `-H` option multiple times for multiple custom headers.
 
